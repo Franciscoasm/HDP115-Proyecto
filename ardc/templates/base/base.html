@@ -1,0 +1,23 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %} Document {% endblock %}</title>
+</head>
+<body>
+    {% block header %}
+    <h4>Bloque del header base</h4>
+    {% endblock %}
+
+    {% block content %}
+    <h5>Contenido base</h5>
+    {% endblock %}
+
+    {% block footer%}
+    <h5>footer base</h5>
+    {% endblock %}
+    
+</body>
+</html>
