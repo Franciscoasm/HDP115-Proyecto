@@ -1,0 +1,79 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Filtracion{% endblock %}
+
+{% block background %}{% load static %}{% static 'core/img/home-bg.jpg' %}{% endblock %}
+
+{% block headers %}
+<h1>Encuesta</h1>
+    <span class="subheading">Gestor de informacion</span>
+{% endblock %}
+
+{% block content %}
+<!--Imagen del logotipo de la app-->
+    <div align = "center">
+        <img class="img-fluid" src="{% static 'core/img/logo.png' %}" alt="">
+    </div>
+
+<!--Informacion sobre la app y sobre lo que trata-->
+    <div align = "Center">
+        <p>Infromacion de la app</p>
+        <br>
+        <p>Para que sirve la app</p>
+    </div>
+    <br>
+<!--Filtrado de datos-->
+    <div class = "container">
+        <label><h4>Filtrar Datos por:</h4></label>
+        <form>
+            <div class="row">
+                <div class="col">
+                    <label class="col-form-label" for="inputDepartamento"><h5>Departamento:</h5></label>
+                    <select class="form-control">
+                    {% for departamento in departamentos %}
+                    <option value = {{departamentos.idDepartamento}}>{{departamento.nombre_departamento}}</option>
+                    {% endfor %}
+                    </select>
+                </div>
+                <div class="col">
+                    <label class="col-form-label" for="inputMunicipio"><h5>Municipio:</h5></label>
+                    <select class="form-control">
+                    {% for municipio in municipios %}
+                    <option value = {{municipios.idMunicipio}}>{{municipio.nombre_municipio}}</option>
+                    {% endfor %}
+                    </select>
+                </div>
+                <div class="col">
+                    <label class="col-form-label" for="inputAyuda"><h5>Tipo de Ayuda:</h5></label>
+                    <select class="form-control">
+<!--Arreglar este modelo-->
+                    {% for municipio in municipios %}
+                    <option value = {{municipios.idMunicipio}}>{{municipio.nombre_municipio}}</option>
+                    {% endfor %}
+                    </select>
+                </div>
+                <div class="col">
+                    <label class="col-form-label" for="inputEntidad"><h5>Entidad:</h5></label>
+                    <select class="form-control">
+<!--Arreglar este modelo-->
+                    {% for municipio in municipios %}
+                    <option value = {{municipios.idMunicipio}}>{{municipio.nombre_municipio}}</option>
+                    {% endfor %}
+                    </select>
+                </div>
+                <button type="button" class="btn btn-dark"><h8>Filtrar</h8></button>
+            </div>
+        </form>
+    </div>
+{% endblock%}
+
+{% block footer%}
+    <br></br>
+    <div align = "center" class="container">
+        <button type="button" class="btn btn-link" pull-righ>Iniciar Sesión</button>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <label>Si desea agregar información, Haga click Aquí</label>
+        <button  type="button" class="btn btn-dark" pull-left><h8>Aquí</h8></button>
+    </div>
+{% endblock %}

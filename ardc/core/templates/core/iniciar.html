@@ -1,0 +1,44 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Iniciar Sesión{% endblock %}
+
+{% block background %}{% load static %}{% static 'core/img/iniciar.jpg' %}{% endblock %}
+
+{% block headers %}
+<h1>Bienvenido a Iniciar Sesion</h1>
+    <span class="subheading">Debe de ingresar datos correctos</span>
+{% endblock %}
+<!--Contenido-->
+{% block content %}
+    <div class="row project">  	
+        <div class="col-lg-3 col-md-4 offset-lg-1">
+            <img class="img-fluid" src="{% static 'core/img/logo.png' %}" alt="">
+        </div>
+        <div class="col-lg-7 col-md-8">
+            <h2 class="section-heading title">ARDC</h2>   
+            <form>
+                <fieldset>
+                    <div class="form-group">
+                        <label class="col-form-label" for="inputUsuario"><h4>Nombre de Usuario:</h4></label>
+                        <input type="text" class="form-control" placeholder="Introduzca su nombre de usuario" id="inputUsuario">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputContraseña"><h4>Contraseña:</h4></label>
+                        <input type="password" class="form-control" id="inputContraseña" placeholder="Introduzca su contraseña">
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+{% endblock%}
+
+{% block footer%}
+    <br></br>
+    <div class="container">
+        <div align="center" class="container">
+            <button type="button" class="btn btn-warning"><h4>Cancelar</h4></button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="button" class="btn btn-success"><h4>Iniciar Sesión</h4></button>
+         </div>
+    </div>
+{% endblock %}
