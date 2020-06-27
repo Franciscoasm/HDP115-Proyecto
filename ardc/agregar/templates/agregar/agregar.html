@@ -1,0 +1,162 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Agregar Información{% endblock %}
+
+{% block background %}{% load static %}{% static 'core/img/portfolio-bg.jpg' %}{% endblock %}
+
+{% block headers %}
+<h1>Agregar Infromación</h1>
+    <span class="subheading">Debe de ingresar datos correctos</span>
+{% endblock %}
+
+{% block content %}
+<!---Aqui empezar-->
+  <div align = "center">
+    <img class="img-fluid" src="{% static 'core/img/logo.png' %}" alt="">
+  </div>
+
+  <div class="container">
+    <div class="container">
+      <form>
+        <fieldset>
+          <div class="form-group">
+            <label class="col-form-label" for="inputDireccion"><h4>Direccion:</h4></label>
+            <input type="text" class="form-control" placeholder="Introduzca su direccion" id="inputDireccion">
+          </div>
+        </fieldset>
+      </form>
+      <!--Formulario para residencia-->
+      <form>
+        <div class="row">
+          <div class="col">
+            <label class="col-form-label" for="inputDepartamento"><h4>Departamento:</h4></label>
+            <select class="form-control">
+              {% for departamento in departamentos %}
+              <option value = {{departamentos.idDepartamento}}>{{departamento.nombre_departamento}}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col">
+            <label class="col-form-label" for="inputMunicipio"><h4>Municipio:</h4></label>
+            <select class="form-control">
+              {% for municipio in municipios %}
+              <option value = {{municipios.idMunicipio}}>{{municipio.nombre_municipio}}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+      </form>
+      <br>
+      <p><h4>Seleccione el tipo de beneficio que recibio:</h4></p>
+      <br>
+      <!--Formulario para entidades-->
+      <form>
+        <div class="row">
+          <div class="col">
+            <div align = "center">
+            <!--Imagen del beneficio dinero-->
+            <div class="col-lg-3 col-md-1 mx-auto">
+              <img class="img-fluid" src="{% static 'core/img/dinero2.jpg' %}" alt="">
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="dinero" id="optDinero" value="optdinero">
+              <label class="form-check-label" for="inlineRadio1"><h4>Dinero</h4></label>
+            </div>
+            </div>
+          </div>
+          <div class="col">
+            <div align = "center">
+            <!--Imagen del beneficio viveres-->
+            <div class="col-lg-3 col-md-4 mx-auto">
+              <img class="img-fluid" src="{% static 'core/img/viveres.png' %}" alt="">
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="viveres" id="optViveres" value="optviveres">
+              <label class="form-check-label" for="inlineRadio2"><h4>Viveres</h4></label>
+            </div>
+            </div>
+          </div>
+          <div class="col">
+            <div align = "center">
+            <!--Imagen del beneficio medicamento-->
+            <div class="col-lg-3 col-md-4 mx-auto">
+              <img class="img-fluid" src="{% static 'core/img/botiquin.jpg' %}" alt="">
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="medicamento" id="optMedicamento" value="optmedicamento">
+              <label class="form-check-label" for="inlineRadio3"><h4>Medicamento</h4></label>
+            </div>
+            </div>
+          </div>
+        </div>
+      </form>
+      <br>
+      <p><h4>Seleccione la entidad de quien recibio la ayuda:</h4></p>
+      <br>
+      <!--Formulario para entidades-->
+      <form>
+        <div class="row">
+          <div class="col">
+            <div align = "center">
+            <!--Imagen de la entidad-->
+            <div class="col-lg-3 col-md-4 mx-auto">
+              <img class="img-fluid" src="{% static 'core/img/entidad.png' %}" alt="">
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="goes" id="optGoes" value="optgoes">
+              <label class="form-check-label" for="inlineRadio1"><h4>GOES</h4></label>
+            </div>
+            </div>
+          </div>
+          <div class="col">
+            <div align = "center">
+            <!--Imagen de la entidad-->
+            <div class="col-lg-3 col-md-4 mx-auto">
+              <img class="img-fluid" src="{% static 'core/img/entidad.png' %}" alt="">
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="alcaldia" id="optAlcaldia" value="optalcaldia">
+              <label class="form-check-label" for="inlineRadio2"><h4>Alcaldia</h4></label>
+            </div>
+            </div>
+          </div>
+          <div class="col">
+            <div align = "center">
+            <!--Imagen de la entidad-->
+            <div class="col-lg-3 col-md-4 mx-auto">
+              <img class="img-fluid" src="{% static 'core/img/entidad.png' %}" alt="">
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="ong" id="optOng" value="optong">
+              <label class="form-check-label" for="inlineRadio3"><h4>ONG'S</h4></label>
+            </div>
+            </div>
+          </div>
+          <div class="col">
+            <div align = "center">
+            <!--Imagen de la entidad-->
+            <div class="col-lg-3 col-md-4 mx-auto">
+              <img class="img-fluid" src="{% static 'core/img/entidad.png' %}" alt="">
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="particular" id="optParticular" value="optparticular">
+              <label class="form-check-label" for="inlineRadio3"><h4>Particular</h4></label>
+            </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock%}
+
+{% block footer%}
+    <br></br>
+    <div class="container">
+        <div align="center" class="container">
+            <button type="button" class="btn btn-primary"><h4>Cancelar</h4></button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="button" class="btn btn-dark"><h4>Guardar</h4></button>
+         </div>
+    </div>
+{% endblock %}
