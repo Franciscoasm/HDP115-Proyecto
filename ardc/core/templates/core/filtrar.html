@@ -47,8 +47,8 @@
                     <label class="col-form-label" for="inputAyuda"><h5>Tipo de Ayuda:</h5></label>
                     <select class="form-control">
 <!--Arreglar este modelo-->
-                    {% for municipio in municipios %}
-                    <option value = {{municipios.idMunicipio}}>{{municipio.nombre_municipio}}</option>
+                    {% for ayuda in ayudas %}
+                    <option value = {{ayudas.idBeneficio}}>{{ayudas.nombre_beneficio}}</option>
                     {% endfor %}
                     </select>
                 </div>
@@ -56,8 +56,8 @@
                     <label class="col-form-label" for="inputEntidad"><h5>Entidad:</h5></label>
                     <select class="form-control">
 <!--Arreglar este modelo-->
-                    {% for municipio in municipios %}
-                    <option value = {{municipios.idMunicipio}}>{{municipio.nombre_municipio}}</option>
+                    {% for entidad in entidades %}
+                    <option value = {{entidades.idEntidad}}>{{entidades.nombre_entidad}}</option>
                     {% endfor %}
                     </select>
                 </div>
@@ -67,13 +67,20 @@
     </div>
 {% endblock%}
 
+<!--Aquí se va a insertar la tabla que muestra los datos (La tabla principal)
+Dicha tabla contiene [Departamento, Municipio, Beneficio, Benefactor]-->
+
+
+
+
+
 {% block footer%}
     <br></br>
     <div align = "center" class="container">
-        <button type="button" class="btn btn-link" pull-righ>Iniciar Sesión</button>
+        <a href="{% url 'Iniciar Sesion' %}"><button type="button" class="btn btn-link" pull-righ>Iniciar Sesión</button></a> 
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <label>Si desea agregar información, Haga click Aquí</label>
-        <button  type="button" class="btn btn-dark" pull-left><h8>Aquí</h8></button>
+        <a href="{% url 'Agregar Infromacion' %}"><button type="button" class="btn btn-dark" pull-left><h8>Aquí</h8></button></a>
     </div>
 {% endblock %}
