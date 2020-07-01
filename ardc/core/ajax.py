@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 
-from agregar.models import Departamento
-from agregar.models import Municipio
+from .models import Departamento
+from .models import Municipio
 
 
 def get_municipios(request):

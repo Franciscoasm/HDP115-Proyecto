@@ -15,18 +15,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from core import views as core_views
-from agregar import views as agregar_views
-
+from core import views
 from django.conf.urls import url
 from core.ajax import get_municipios
 
 urlpatterns = [
-    # Paths del core
-    path('', core_views.filtrar, name = "Filtrar"),
-    path('agregar/', agregar_views.agregar, name = "Agregar Infromacion"),
-    path('iniciar/', core_views.iniciar, name = "Iniciar Sesion"),
-    # Admin
+    #Paths del core
+    path('', views.filtrar, name = "Filtrar"),
+    path('agregar/',views.agregar, name = "Agregar Infromacion"),
+    path('iniciar/', views.iniciar, name = "Iniciar Sesion"),
+    #Admin
     path('admin/', admin.site.urls),
-    url(r'ajax/get_municipios/', get_municipios, name='get_municipios'),
+    url(r'ajax/get_municipios', get_municipios, name='get_municipios')
 ]

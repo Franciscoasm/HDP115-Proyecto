@@ -1,6 +1,6 @@
 from django import forms
 
-from agregar.models import Departamento, Municipio
+from .models import Departamento, Municipio
 
 
 class UbicacionForm(forms.Form):
