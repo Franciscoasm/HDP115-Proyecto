@@ -7,12 +7,14 @@ class UbicacionForm(forms.Form):
 
     departamento = forms.ModelChoiceField(
         label=u'', 
-        queryset=Departamento.objects.all()
+        queryset=Departamento.objects.all(),
+        widget=forms.Select(attrs={'class':'form-control'}),
     )
     
     municipio = forms.ModelChoiceField(
         label=u'', 
-        queryset=Municipio.objects.all()
+        queryset=Municipio.objects.all(),
+        widget=forms.Select(attrs={'class':'form-control'}),
     )
 
     def __init__(self, *args, **kwargs):
