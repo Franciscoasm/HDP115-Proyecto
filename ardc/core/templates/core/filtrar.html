@@ -25,24 +25,22 @@
 <!--Filtrado de datos-->
     <div class = "container">
         <label><h4>Filtrar Datos por:</h4></label>
-        <form>
+        <form method="POST">
+            {% csrf_token %}
             <div class="row">
                 <div class="col">
                     <label class="col-form-label" for="inputDepartamento"><h5>Departamento:</h5></label>
-                    <select class="form-control">
-                    {% for departamento in departamentos %}
-                    <option value = {{departamentos.idDepartamento}}>{{departamento.nombre_departamento}}</option>
-                    {% endfor %}
-                    </select>
+                        {{ form.departamento.label_tag }} 
+                        {{ form.departamento }}
+                    
                 </div>
                 <div class="col">
                     <label class="col-form-label" for="inputMunicipio"><h5>Municipio:</h5></label>
-                    <select class="form-control">
-                    {% for municipio in municipios %}
-                    <option value = {{municipios.idMunicipio}}>{{municipio.nombre_municipio}}</option>
-                    {% endfor %}
-                    </select>
+                    {{ form.municipio.label_tag }}  
+                    {{ form.municipio }}
+                    
                 </div>
+
                 <div class="col">
                     <label class="col-form-label" for="inputAyuda"><h5>Tipo de Ayuda:</h5></label>
                     <select class="form-control">
@@ -64,7 +62,39 @@
                 <button type="button" class="btn btn-dark"><h8>Filtrar</h8></button>
             </div>
         </form>
-    </div>
+        
+        <script type="text/javascript">
+            
+            $(document).ready(function() {
+                $("#id_departamento").on("change", getMunicipios);
+            });
+
+            function getMunicipios() {
+                var departamentoId = $("#id_departamento").val();
+                if (departamentoId) {
+                    // Eliminamos las opciones anteriores del select
+                    $("#id_municipio").html("");
+                    var request = $.ajax({
+                        type: "GET",
+                        url: "{% url 'get_municipios' %}",
+                        data: {
+                            "departamento_id": departamentoId,
+                        },
+                    });
+                    request.done(function(response) {
+                        // Agregamos los resultados al select
+                        $("#id_municipio").html(response.municipios);
+                        $("#id_municipio").trigger("change");
+                    });
+                } else {
+                    $("#id_municipio").html("<option value='' selected='selected'>--------</option>");
+                    $("#id_municipio").trigger("change");
+                }
+            }    
+
+        </script>
+       
+    </div>    
 {% endblock%}
 
 <!--Aquí se va a insertar la tabla que muestra los datos (La tabla principal)
@@ -83,4 +113,4 @@ Dicha tabla contiene [Departamento, Municipio, Beneficio, Benefactor]-->
         <label>Si desea agregar información, Haga click Aquí</label>
         <a href="{% url 'Agregar Infromacion' %}"><button type="button" class="btn btn-dark" pull-left><h8>Aquí</h8></button></a>
     </div>
-{% endblock %}
+{% endblock %} 

@@ -18,6 +18,9 @@ from django.urls import path
 from core import views as core_views
 from agregar import views as agregar_views
 
+from django.conf.urls import url
+from core.ajax import get_municipios
+
 urlpatterns = [
     # Paths del core
     path('', core_views.filtrar, name = "Filtrar"),
@@ -25,4 +28,5 @@ urlpatterns = [
     path('iniciar/', core_views.iniciar, name = "Iniciar Sesion"),
     # Admin
     path('admin/', admin.site.urls),
+    url(r'ajax/get_municipios/', get_municipios, name='get_municipios'),
 ]
