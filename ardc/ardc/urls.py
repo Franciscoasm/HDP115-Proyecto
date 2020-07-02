@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from core import views
 from django.conf.urls import url
-from core.ajax import get_municipios
+from core.ajax import get_municipios, get_info
 
 urlpatterns = [
     #Paths del core
@@ -26,5 +26,6 @@ urlpatterns = [
     path('iniciar/', views.iniciar, name = "Iniciar Sesion"),
     #Admin
     path('admin/', admin.site.urls),
-    url(r'ajax/get_municipios', get_municipios, name='get_municipios')
+    url(r'ajax/get_municipios', get_municipios, name='get_municipios'),
+    url(r'ajax/get_info', get_info, name='get_info'),
 ]
