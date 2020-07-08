@@ -38,4 +38,9 @@ def iniciar(request):
 
 
 def agregar(request):
-    return render(request, "core/agregar.html")
+    form=FormFiltrar()
+    if request.method=="POST":
+        form=FormFiltrar(request.POST)
+        if form.is_valid():
+            return HttpResponse(url)
+    return render(request, "core/agregar.html",{'form':form})

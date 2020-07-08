@@ -26,26 +26,56 @@
         </fieldset>
       </form>
       <!--Formulario para residencia-->
-      <form>
-        <div class="row">
-          <div class="col">
-            <label class="col-form-label" for="inputDepartamento"><h4>Departamento:</h4></label>
-            <select class="form-control">
-              {% for departamento in departamentos %}
-              <option value = {{departamentos.idDepartamento}}>{{departamento.nombre_departamento}}</option>
-              {% endfor %}
-            </select>
-          </div>
-          <div class="col">
-            <label class="col-form-label" for="inputMunicipio"><h4>Municipio:</h4></label>
-            <select class="form-control">
-              {% for municipio in municipios %}
-              <option value = {{municipios.idMunicipio}}>{{municipio.nombre_municipio}}</option>
-              {% endfor %}
-            </select>
-          </div>
-        </div>
-      </form>
+      <div class="container">
+        <form method="POST">
+          {% csrf_token %}
+          <div class="row">
+            <div class="col">
+                <label class="col-form-label" for="inputDepartamento"><h5>Departamento:</h5></label>
+                 {{form.departamento.label_tag}}
+                 {{form.departamento}}
+            </div>
+            <div class="col">
+                <label class="col-form-label" for="inputMunicipio"><h5>Municipio:</h5></label>
+                 {{form.municipio.label_tag}}
+                 {{form.municipio}}
+            </div>
+         </div>
+        </form>
+
+        <script type="text/javascript">
+            
+                $(document).ready(function() {
+                  $("#id_departamento").on("change", getMunicipios);
+                  $("#filtrarInfo").on("click", getInfo);
+                });
+              
+              function getMunicipios() {
+                 var departamentoId = $("#id_departamento").val();
+                    if (departamentoId) {
+                    // Eliminamos las opciones anteriores del select
+                        $("#id_municipio").html("");
+                        var request = $.ajax({
+                        type: "GET",
+                        url: "{% url 'get_municipios' %}",
+                        data: {
+                        "departamento_id": departamentoId,
+                           },
+                        });
+                        request.done(function(response) {
+                           // Agregamos los resultados al select
+                         $("#id_municipio").html(response.municipios);
+                         $("#id_municipio").trigger("change");
+                           });
+                     } else {
+                            $("#id_municipio").html("<option value='' selected='selected'>--------</option>");
+                            $("#id_municipio").trigger("change");
+                          }
+                 }
+  
+        </script>
+      </div>
+    
       <br>
       <p><h4>Seleccione el tipo de beneficio que recibio:</h4></p>
       <br>
@@ -98,7 +128,7 @@
         </div>
       </form>
     </div>
-  </div>
+
 {% endblock%}
 
 {% block footer%}
