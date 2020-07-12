@@ -48,11 +48,9 @@ def agregar(request):
         beneficio=Beneficio()
 
     	#consulta para las entidades y ayuda
-        #beneficio=Beneficio.objects.get(idBeneficio=request.POST['medicamento_input'] 
+         
         beneficiario.beneficio=Beneficio.objects.get(idBeneficio=str(request.POST['ayuda']))
-        beneficiario.benefactor=Benefactor.objects.get(idBenefactor=str(request.POST['entidades']))
-        #beneficio3=request.POST.get('medicamento_input','Off')
-    
+        beneficiario.benefactor=Benefactor.objects.get(idBenefactor=str(request.POST['entidades']))  
         '''
         if(beneficio1=='on'):
              beneficio1=1
