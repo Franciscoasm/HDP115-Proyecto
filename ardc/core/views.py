@@ -50,11 +50,13 @@ def agregar(request):
     	#consulta
         #beneficio=Beneficio.objects.get(idBeneficio=request.POST['viveres_input'])
         #beneficio=Beneficio.objects.get(idBeneficio=request.POST['medicamento_input'] 
-        beneficiario.beneficio1=Beneficio.objects.get(idBeneficio=str(request.POST['dinero']))
+        beneficiario.beneficio=Beneficio.objects.get(idBeneficio=str(request.POST['ayuda']))
+        beneficiario.benefactor=Benefactor.objects.get(idBenefactor=str(request.POST['entidades']))
         #beneficio1 = request.POST.get('dinero_input2','Off')
-        beneficio2=request.POST.get('viveres_input','Off')
-        beneficio3=request.POST.get('medicamento_input','Off')
-        
+        #beneficio2=request.POST.get('viveres_input','Off')
+        #beneficio3=request.POST.get('medicamento_input','Off')
+    
+        '''
         if(beneficio1=='on'):
              beneficio1=1
              print ("valor del input")
@@ -73,8 +75,9 @@ def agregar(request):
                             #print("valor del input")
                             #print(beneficio3)
                          else:
-                             beneficio3=0
-            
+                             beneficio3=0 
+        '''
+        
         direccion=request.POST['direccion']
 
         #Como para tener identificados los datos y que se van a guardar en la tabla
