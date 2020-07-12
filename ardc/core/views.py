@@ -38,9 +38,60 @@ def iniciar(request):
 
 
 def agregar(request):
+ 
+    
+    
     form=FormFiltrar()
     if request.method=="POST":
+        #creacion de objetos
+        beneficiario=Beneficiario()
+        beneficio=Beneficio()
+
+    	#consulta
+        #beneficio=Beneficio.objects.get(idBeneficio=request.POST['viveres_input'])
+        #beneficio=Beneficio.objects.get(idBeneficio=request.POST['medicamento_input'] 
+        beneficiario.beneficio1=Beneficio.objects.get(idBeneficio=str(request.POST['dinero']))
+        #beneficio1 = request.POST.get('dinero_input2','Off')
+        beneficio2=request.POST.get('viveres_input','Off')
+        beneficio3=request.POST.get('medicamento_input','Off')
+        
+        if(beneficio1=='on'):
+             beneficio1=1
+             print ("valor del input")
+             print(beneficio1)
+        else:
+                 
+                 if(beneficio2=='on'):
+                     beneficio2=1
+                 #print("valor del input")
+                 #print(beneficio2)
+                 
+                 else:
+                     #beneficio2=0
+                         if(beneficio3=='on'):
+                             beneficio3=1
+                            #print("valor del input")
+                            #print(beneficio3)
+                         else:
+                             beneficio3=0
+            
+        direccion=request.POST['direccion']
+
+        #Como para tener identificados los datos y que se van a guardar en la tabla
+        beneficiario.direccion=direccion
+        
+        #QuerySets que lee de la base de datos
+        municipio=Municipio.objects.get(idMunicipio=request.POST['municipio']) #Consigue un objeto que tenga cualquier id del municipio
+        departamento=Departamento.objects.get(idDepartamento=request.POST['departamento'])
+        beneficiario.departamento=departamento
+        beneficiario.municipio=municipio      
+        #Guarda en la base de datos
+        beneficiario.save()
+
+        #Combobox
         form=FormFiltrar(request.POST)
         if form.is_valid():
-            return HttpResponse(url)
+            return HttpResponse(url)  
+   
+   
     return render(request, "core/agregar.html",{'form':form})

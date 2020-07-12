@@ -36,6 +36,7 @@ class Beneficio(models.Model):
 
 class Beneficiario(models.Model):
     idBeneficiario = models.CharField(max_length=10,primary_key=True)
+    direccion=models.CharField(max_length=50, default='SOME STRING')
     departamento = models.ForeignKey(Departamento, null = True, blank = True, on_delete=models.CASCADE)
     municipio = models.ForeignKey(Municipio, null = True, blank = True, on_delete=models.CASCADE)   
     beneficio = models.ForeignKey(Beneficio, null = True, blank = True, on_delete=models.CASCADE)
