@@ -47,13 +47,10 @@ def agregar(request):
         beneficiario=Beneficiario()
         beneficio=Beneficio()
 
-    	#consulta
-        #beneficio=Beneficio.objects.get(idBeneficio=request.POST['viveres_input'])
+    	#consulta para las entidades y ayuda
         #beneficio=Beneficio.objects.get(idBeneficio=request.POST['medicamento_input'] 
         beneficiario.beneficio=Beneficio.objects.get(idBeneficio=str(request.POST['ayuda']))
         beneficiario.benefactor=Benefactor.objects.get(idBenefactor=str(request.POST['entidades']))
-        #beneficio1 = request.POST.get('dinero_input2','Off')
-        #beneficio2=request.POST.get('viveres_input','Off')
         #beneficio3=request.POST.get('medicamento_input','Off')
     
         '''
@@ -61,8 +58,7 @@ def agregar(request):
              beneficio1=1
              print ("valor del input")
              print(beneficio1)
-        else:
-                 
+        else:       
                  if(beneficio2=='on'):
                      beneficio2=1
                  #print("valor del input")
@@ -79,7 +75,6 @@ def agregar(request):
         '''
         
         direccion=request.POST['direccion']
-
         #Como para tener identificados los datos y que se van a guardar en la tabla
         beneficiario.direccion=direccion
         
