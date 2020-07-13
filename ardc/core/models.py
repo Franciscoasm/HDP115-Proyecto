@@ -23,6 +23,7 @@ class Usuario(models.Model):
     idUsuario = models.CharField(max_length=10,primary_key=True)
     usuario = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     nombre_usuario = models.CharField(max_length=50)
+    contraseña=models.CharField(max_length=50, default='SOME STRING')
     institucion = models.CharField(max_length=50)
 
 

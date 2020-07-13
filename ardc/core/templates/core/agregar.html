@@ -24,7 +24,7 @@
           <label class="col-form-label" for="inputDireccion">
             <h4>Direccion:</h4>
           </label>
-          <input type="text" class="form-control" placeholder="Introduzca su direccion" name="direccion" id="inputDireccion">
+          <input type="text" class="form-control" required placeholder="Introduzca su direccion"  pattern="(?=.*\d-)(?=.*[a-z])(?=.*[A-Z]).{10,}" name="direccion" id="inputDireccion">
         </div>
       </fieldset>
 
@@ -92,21 +92,21 @@
       <div align="center">
         <div class="form-check form-check-inline col-lg-3 col-md-1 mx-auto">
           <img class="img-fluid" src="{% static 'core/img/dinero.png' %}" alt="">
-          <input class="form-check-input" type="radio" name="ayuda" id="dinero" value="1">
+          <input class="form-check-input" type="radio" required name="ayuda" id="dinero" value="1">
           <label class="form-check-label" for="inlineRadio1">
             <h5>Dinero</h5>
           </label>
         </div>
         <div class="form-check form-check-inline col-lg-3 col-md-1 mx-auto">
           <img class="img-fluid" src="{% static 'core/img/viveres01.png' %}" alt="">
-          <input class="form-check-input" type="radio" name="ayuda" id="viveres" value="2">
+          <input class="form-check-input" type="radio" required name="ayuda" id="viveres" value="2">
           <label class="form-check-label" for="inlineRadio2">
             <h5>Viveres</h5>
           </label>
         </div>
         <div class="form-check form-check-inline col-lg-3 col-md-1 mx-auto">
           <img class="img-fluid" src="{% static 'core/img/botiquin.png' %}" alt="">
-          <input class="form-check-input" type="radio" name="ayuda" id="medicamento" value="3">
+          <input class="form-check-input" type="radio" required name="ayuda" id="medicamento" value="3">
           <label class="form-check-label" for="inlineRadio3">
             <h5>Medicamento</h5>
           </label>
@@ -123,7 +123,7 @@
       <div align="center">
         <div class="form-check form-check-inline col-lg-3 col-md-1 mx-auto">
           <img class="img-fluid" src="{% static 'core/img/ent.png' %}" alt="">
-          <input class="form-check-input" type="radio" name="entidades" id="goes" value="1">
+          <input class="form-check-input" type="radio" required name="entidades" id="goes" value="1">
           <label class="form-check-label" for="inlineRadio1">
             <h5>GOE´S</h5>
           </label>
@@ -137,14 +137,14 @@
         </div>
         <div class="form-check form-check-inline col-lg-3 col-md-1 mx-auto">
           <img class="img-fluid" src="{% static 'core/img/ent.png' %}" alt="">
-          <input class="form-check-input" type="radio" name="entidades" id="ONG´S" value="3">
+          <input class="form-check-input" type="radio" required name="entidades" id="ONG´S" value="3">
           <label class="form-check-label" for="inlineRadio3">
             <h5>ONG´S</h5>
           </label>
         </div>
         <div class="form-check form-check-inline col-lg-3 col-md-1 mx-auto">
           <img class="img-fluid" src="{% static 'core/img/ent.png' %}" alt="">
-          <input class="form-check-input" type="radio" name="entidades" id="particular" value="4">
+          <input class="form-check-input" type="radio" required name="entidades" id="particular" value="4">
           <label class="form-check-label" for="inlineRadio3">
             <h5>Particular</h5>
           </label>
