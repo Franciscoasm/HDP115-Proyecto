@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from core import views
 from django.conf.urls import url
 from core.ajax import get_municipios, get_info
@@ -23,9 +23,13 @@ urlpatterns = [
     #Paths del core
     path('', views.filtrar, name = "Filtrar"),
     path('agregar/',views.agregar, name = "Agregar Infromacion"),
-    path('iniciar/', views.iniciar, name = "Iniciar Sesion"),
+    #path('iniciar/', views.iniciar, name = "Iniciar Sesion"),
     #Admin
     path('admin/', admin.site.urls),
     url(r'ajax/get_municipios', get_municipios, name='get_municipios'),
     url(r'ajax/get_info', get_info, name='get_info'),
+    #path('accounts/', include('django.contrib.auth.urls')),
+    path('iniciar/', views.login, name = "Iniciar Sesion"),
+    path('logout/', views.logout),
+    path('welcome/', views.welcome)
 ]

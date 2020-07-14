@@ -16,18 +16,15 @@
         </div>
         <div class="col-lg-7 col-md-8">
             <h2 class="section-heading title">ARDC</h2>   
-            <form>
-                <fieldset>
-                    <div class="form-group">
-                        <label class="col-form-label" for="inputUsuario"><h4>Nombre de Usuario:</h4></label>
-                        <input type="text" required class="form-control" placeholder="Introduzca su nombre de usuario" id="inputUsuario">
-                    </div>
-                    <div class="form-group">
-                        <label for="inputContraseña"><h4>Contraseña:</h4></label>
-                        <input type="password" required class="form-control" id="inputContraseña" placeholder="Introduzca su contraseña">
-                    </div>
-                </fieldset>
+            <h2>Iniciar sesión</h2>
+
+            <form method="POST">
+                {{ form.as_p }}
+                {% csrf_token %}
+                <button type="submit">Login</button>
             </form>
+
+            <hr />
         </div>
     </div>
 {% endblock%}
