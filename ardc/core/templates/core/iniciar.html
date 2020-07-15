@@ -21,7 +21,13 @@
             <form method="POST">
                 {{ form.as_p }}
                 {% csrf_token %}
-                <button type="submit">Login</button>
+                <div class="container">
+                    <div align="center" class="container">
+                        <a href="{% url 'Filtrar' %}"><button type="button" class="btn btn-warning"><h4>Cancelar</h4></button></a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <button type="submit" class="btn btn-success"><h4>Iniciar Sesión</h4></button>
+                     </div>
+                </div>
             </form>
 
             <hr />
@@ -31,11 +37,5 @@
 
 {% block footer%}
     <br></br>
-    <div class="container">
-        <div align="center" class="container">
-            <a href="{% url 'Filtrar' %}"><button type="button" class="btn btn-warning"><h4>Cancelar</h4></button></a>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <button type="submit" class="btn btn-success"><h4>Iniciar Sesión</h4></button>
-         </div>
-    </div>
+
 {% endblock %}

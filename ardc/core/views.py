@@ -122,7 +122,7 @@ def login(request):
                     # Hacemos el login manualmente
                     do_login(request, user)
                     # Y le redireccionamos a la portada
-                    return redirect('../welcome')
+                    return redirect('../')
 
         # Si llegamos al final renderizamos el formulario
         return render(request, "core/iniciar.html", {'form': form})
