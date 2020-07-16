@@ -3,6 +3,13 @@ from django.http import HttpResponse
 from .models import Departamento, Municipio, Beneficio, Benefactor, Beneficiario
 from .forms import FormFiltrar
 
+
+from django.contrib.auth import authenticate
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import login as do_login
+from django.contrib.auth import logout as do_logout
+from django.shortcuts import redirect
+
 # Create your views here.
 """
 Filtrar Datos/
@@ -33,8 +40,8 @@ def filtrar(request):
     return render(request, "core/filtrar.html",{'form':form, 'ayudas':ayudas, 'entidades':entidades, 'beneficiarios':beneficiarios})
 
 
-def iniciar(request):
-    return render(request, "core/iniciar.html")
+#def iniciar(request):
+#    return render(request, "core/iniciar.html")
 
 
 def agregar(request):
@@ -91,3 +98,43 @@ def agregar(request):
    
    
     return render(request, "core/agregar.html",{'form':form})
+
+def login(request):
+    if request.user.is_authenticated:
+        return redirect('/')
+    else :
+        # Creamos el formulario de autenticación vacío
+        form = AuthenticationForm()
+        if request.method == "POST":
+            # Añadimos los datos recibidos al formulario
+            form = AuthenticationForm(data=request.POST)
+            # Si el formulario es válido...
+            if form.is_valid():
+                # Recuperamos las credenciales validadas
+                username = form.cleaned_data['username']
+                password = form.cleaned_data['password']
+
+                # Verificamos las credenciales del usuario
+                user = authenticate(username=username, password=password)
+
+                # Si existe un usuario con ese nombre y contraseña
+                if user is not None:
+                    # Hacemos el login manualmente
+                    do_login(request, user)
+                    # Y le redireccionamos a la portada
+                    return redirect('../')
+
+        # Si llegamos al final renderizamos el formulario
+        return render(request, "core/iniciar.html", {'form': form})
+
+def logout(request):
+    # Redireccionamos a la portada
+    do_logout(request)
+    return redirect('/')
+
+def welcome(request):
+    # Si estamos identificados devolvemos la portada
+    if request.user.is_authenticated:
+        return render(request, "core/welcome.html")
+    # En otro caso redireccionamos al login
+    return redirect('../iniciar')
