@@ -15,15 +15,15 @@ departamentos = Departamento.objects.all()
 municipios = Municipio.objects.all()
 ayudas = Beneficio.objects.all()
 entidades = Benefactor.objects.all()
-beneficiarios = Beneficiario.objects.raw('SELECT idBeneficiario, direccion, nombre_departamento, nombre_municipio, COUNT(idBeneficiario) AS cantidad '\
+
+def filtrar(request):
+
+    beneficiarios = Beneficiario.objects.raw('SELECT idBeneficiario, direccion, nombre_departamento, nombre_municipio, COUNT(idBeneficiario) AS cantidad '\
                                         'FROM core_beneficiario, core_municipio, core_departamento, core_detallebeneficiario  '\
                                         'WHERE core_beneficiario.municipio_id=core_municipio.idMunicipio  '\
                                         'AND core_beneficiario.departamento_id=core_departamento.idDepartamento  '\
                                         'AND core_beneficiario.idBeneficiario=core_detallebeneficiario.beneficiario_id '\
-                                        'GROUP BY direccion, nombre_departamento, nombre_municipio'
-)
-
-def filtrar(request):
+                                        'GROUP BY direccion, nombre_departamento, nombre_municipio')
     form = FormFiltrar()
     if request.method == 'POST':
         form = FormFiltrar(request.POST)

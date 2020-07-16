@@ -68,6 +68,7 @@
                         <th scope="col">Departamento</th>
                         <th scope="col">Municipio</th>
                         <th scope="col">Ayuda Recibida</th>
+                        <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -77,10 +78,36 @@
                             <td>{{beneficiario.nombre_departamento}}</td>
                             <td>{{beneficiario.nombre_municipio}}</td>
                             <td>{{beneficiario.cantidad}}</td>
+                            <td>
+                                <button type="button" onclick="getInfoExtend({{beneficiario.idBeneficiario}})" class="btn btn-link" data-toggle="modal" data-target="#exampleModal">
+                                    <i class="large material-icons">import_contacts</i>
+                                </button>
+                            </td>
                         </tr>
                     {% endfor %}
                 </tbody>
             </table>
+            
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Informacion detallada</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="false">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="result2">
+                            
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    </div>
+                    </div>
+                </div>
+            </div>
         </div>
         
         <script type="text/javascript">
@@ -88,6 +115,9 @@
             $(document).ready(function() {
                 $("#id_departamento").on("change", getMunicipios);
                 $("#filtrarInfo").on("click", getInfo);
+                $('#myModal').on('shown.bs.modal', function () {
+                    $('#myInput').trigger('focus')
+                })
             });
 
             function getMunicipios() {
@@ -134,6 +164,22 @@
                     // Agregamos los resultados al select
                     $("#result").html(response.beneficiarios);
                     $("#result").trigger("click");
+                }); 
+            }
+
+            function getInfoExtend(id_beneficiario) {
+                $("#result2").html("");
+                var request = $.ajax({
+                    type: "GET",
+                    url: "{% url 'get_detalle' %}",
+                    data: {
+                        "beneficiario_id": id_beneficiario,
+                    },
+                });
+                request.done(function(response) {
+                    // Agregamos los resultados al select
+                    $("#result2").html(response.detallesExtend);
+                    $("#result2").trigger("click");
                 }); 
             }
         </script>
