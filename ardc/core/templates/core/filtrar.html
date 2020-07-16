@@ -55,26 +55,6 @@
                     
                 </div>
 
-                <div class="col">
-                    <label class="col-form-label" for="inputAyuda"><h5>Tipo de Ayuda:</h5></label>
-                    <select class="form-control" id="id_beneficio">
-<!--Arreglar este modelo-->
-                    <option value="" selected="selected">-------</option>
-                    {% for ayuda in ayudas %}
-                    <option value = {{ayuda.idBeneficio}}>{{ayuda.nombre_beneficio}}</option>
-                    {% endfor %}
-                    </select>
-                </div>
-                <div class="col">
-                    <label class="col-form-label" for="inputEntidad"><h5>Entidad:</h5></label>
-                    <select class="form-control" id="id_benefactor">
-<!--Arreglar este modelo-->
-                    <option value="" selected="selected">-------</option>
-                    {% for entidad in entidades %}
-                    <option value = {{entidad.idBenefactor}}>{{entidad.nombre_benefactor}}</option>
-                    {% endfor %}
-                    </select>
-                </div>
                 <button type="button" class="btn btn-dark" id="filtrarInfo"><h8>Filtrar</h8></button>
             </div>
         </form>
@@ -84,20 +64,18 @@
             <table class="table table-hover">
                 <thead>
                     <tr class="table-primary">
+                        <th scope="col">Direccion</th>
                         <th scope="col">Departamento</th>
                         <th scope="col">Municipio</th>
-                        <th scope="col">Tipo de ayuda</th>
-                        <th scope="col">Entidad</th>
-                        <th scope="col">Cantidad</th>
+                        <th scope="col">Ayuda Recibida</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for beneficiario in beneficiarios %}
                         <tr class="table-light">    
+                            <td>{{beneficiario.direccion}}</td>
                             <td>{{beneficiario.nombre_departamento}}</td>
                             <td>{{beneficiario.nombre_municipio}}</td>
-                            <td>{{beneficiario.nombre_beneficio}}</td>
-                            <td>{{beneficiario.nombre_benefactor}}</td>
                             <td>{{beneficiario.cantidad}}</td>
                         </tr>
                     {% endfor %}

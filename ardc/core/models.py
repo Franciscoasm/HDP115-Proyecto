@@ -39,9 +39,14 @@ class Beneficiario(models.Model):
     idBeneficiario = models.AutoField(primary_key=True)
     direccion=models.CharField(max_length=50, default='SOME STRING')
     departamento = models.ForeignKey(Departamento, null = True, blank = True, on_delete=models.CASCADE)
-    municipio = models.ForeignKey(Municipio, null = True, blank = True, on_delete=models.CASCADE)   
+    municipio = models.ForeignKey(Municipio, null = True, blank = True, on_delete=models.CASCADE)  
+    estado = models.IntegerField(default=1)
+    
+class DetalleBeneficiario(models.Model):
+    idDetalle = models.AutoField(primary_key=True)
+    beneficiario = models.ForeignKey(Beneficiario, null = True, blank = True, on_delete=models.CASCADE)  
     beneficio = models.ForeignKey(Beneficio, null = True, blank = True, on_delete=models.CASCADE)
     benefactor = models.ForeignKey(Benefactor, null = True, blank = True, on_delete=models.CASCADE)
-
+    cantidad = models.CharField(max_length=10)
 
 
