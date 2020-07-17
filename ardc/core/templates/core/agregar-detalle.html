@@ -1,0 +1,130 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Agregar Información{% endblock %}
+
+{% block background %}{% load static %}{% static 'core/img/portfolio-bg.jpg' %}{% endblock %}
+
+{% block headers %}
+<h1>Agregar Infromación</h1>
+<span class="subheading">Debe de ingresar datos correctos</span>
+{% endblock %}
+
+{% block content %}
+<!---Aqui empezar-->
+<div align="center">
+  <img class="img-fluid" src="{% static 'core/img/logo_new.png' %}" alt="">
+</div>
+
+<div class="container">
+  <div class="container">
+    <form method="POST">
+        {% csrf_token %}
+        <br>
+        <p>
+        <h4>Agregar ayuda:</h4>
+        </p>
+        <br>
+        <!--Formulario para tipo de ayuda-->
+
+        <div class="row">
+            <div class="col">
+                <label class="col-form-label" for="inputAyuda"><h5>Tipo de Ayuda:</h5></label>
+                <select class="form-control" name="ayuda" id="id_beneficio">
+                    {% for ayuda in ayudas %}
+                    <option value = {{ayuda.idBeneficio}}>{{ayuda.nombre_beneficio}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col">
+                <label class="col-form-label" for="inputEntidad"><h5>Entidad:</h5></label>
+                <select class="form-control"  name="entidades" id="id_benefactor">
+                    {% for entidad in entidades %}
+                    <option value = {{entidad.idBenefactor}}>{{entidad.nombre_benefactor}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <br>
+        <p>
+        </p>
+        <br>
+        <!--Formulario para entidades-->
+
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                <label class="col-form-label" for="inputCantidad"><h5>Cantidad</h5></label>
+                <input type="text" class="form-control" required placeholder="Introduzca la cantidad"  name="cantidad" id="inputCantidad">
+                </div>
+            </div>
+        </div>
+        
+        <!--Botones de accion-->
+        <br></br>
+        <div class="container">
+            <div align="center" class="container">
+            <a href="{% url 'actualizar' %}"><button type="button" class="btn btn-primary">
+                <h4>Terminar</h4>
+                </button></a>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="submit" class="btn btn-dark" id="agregar">
+                <h4>Agregar</h4>
+            </button>
+            </div>
+        </div>
+    </form>
+    <br>
+    <p>
+    </p>
+    <br>
+
+    <div id="result">
+
+    </div>
+
+    <script type="text/javascript">
+    getID();
+    $(document).ready(function() {
+        $("#agregar").on("click", getID);
+    });
+
+    function getID() {
+        
+        $("#result").html("");
+        var request = $.ajax({
+            type: "GET",
+            url: "{% url 'get_last' %}",
+        });
+        request.done(function(response) {
+            getInfo(response.idLast);
+        }); 
+    }
+
+    function getInfo(idLast) {
+        $("#result").html("");
+        var request = $.ajax({
+            type: "GET",
+            url: "{% url 'get_detalle' %}",
+            data: {
+                "beneficiario_id": idLast,
+            },
+        });
+        request.done(function(response) {
+            // Agregamos los resultados al select
+            $("#result").html(response.detallesExtend);
+            $("#result").trigger("click");
+            
+        }); 
+    }
+
+    
+
+</script>
+  </div>
+
+  {% endblock%}
+
+  {% block footer%}
+
+  {% endblock %}
