@@ -67,8 +67,8 @@
                         <th scope="col">Direccion</th>
                         <th scope="col">Departamento</th>
                         <th scope="col">Municipio</th>
-                        <th scope="col">Ayuda Recibida</th>
-                        <th scope="col"></th>
+                        <th scope="col">Cantidad de Ayudas</th>
+                        <th scope="col">Detalle</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -80,7 +80,7 @@
                             <td>{{beneficiario.cantidad}}</td>
                             <td>
                                 <button type="button" onclick="getInfoExtend({{beneficiario.idBeneficiario}})" class="btn btn-link" data-toggle="modal" data-target="#exampleModal">
-                                    <i class="large material-icons">import_contacts</i>
+                                    <i class="large material-icons">more</i>
                                 </button>
                             </td>
                         </tr>
@@ -109,9 +109,17 @@
                 </div>
             </div>
         </div>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div id="container"></div>
+                </div>
+            </div>
+        </div>
         
         <script type="text/javascript">
-            
+
             $(document).ready(function() {
                 $("#id_departamento").on("change", getMunicipios);
                 $("#filtrarInfo").on("click", getInfo);
@@ -182,6 +190,57 @@
                     $("#result2").trigger("click");
                 }); 
             }
+
+            Highcharts.chart('container', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Cantidad de ayuda por departamento'
+            },
+            subtitle: {
+                text: ''
+            },
+            xAxis: {
+                categories: [
+                    {% for grafic in grafico %}
+                    '{{grafic.nombre_departamento}}',
+                    {% endfor %}
+                ],
+                crosshair: true
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Ayuda'
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: 'Cantidad de ayuda',
+                showInLegend: false,
+                colorByPoint : true,
+                data: [
+                    {% for grafic in grafico %}
+                    {{grafic.cont}},
+                    {% endfor %}
+                ]
+
+            }]
+        });
         </script>
        
     </div>    
@@ -197,9 +256,10 @@ Dicha tabla contiene [Departamento, Municipio, Beneficio, Benefactor]-->
 {% block footer%}
     <br></br>
     <div align = "center" class="container">
+        {% if not request.user.is_authenticated %}
         <a href="{% url 'Iniciar Sesion' %}"><button type="button" class="btn btn-link" pull-righ>Iniciar Sesión</button></a> 
+        {% endif%}
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <a href="/logout"><button type="button" class="btn btn-link" pull-righ>Cerrar Sesión</button></a>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <label>Si desea agregar información, Haga click Aquí</label>

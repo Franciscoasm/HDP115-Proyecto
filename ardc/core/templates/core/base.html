@@ -20,6 +20,10 @@
     <script language="javascript" src="core/static/core/js/jquery-3.5.1.min.js"></script>
     <script type="text/javascript" src="http://code.jquery.com/jquery-3.5.1.min.js"></script> 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
      </head>
 
   <body>
@@ -40,9 +44,22 @@
             <li class="nav-item">
               <a class="nav-link" href="{% url 'Agregar Infromacion' %}">Agregar Informacion</a>
             </li>
+            {% if request.user.is_authenticated %}
+            
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  {{ request.user.username}}
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                 <a class="dropdown-item" href="/logout">Cerrar Sesion</a>
+              </div>
+            </li>
+            {% else %}
             <li class="nav-item">
               <a class="nav-link" href="{% url 'Iniciar Sesion' %}">Iniciar Sesion</a>
             </li>
+            {% endif%}
+            
           </ul>
         </div>
       </div>

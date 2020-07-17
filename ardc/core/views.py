@@ -29,7 +29,14 @@ def filtrar(request):
                                         'WHERE core_beneficiario.municipio_id=core_municipio.idMunicipio  '\
                                         'AND core_beneficiario.departamento_id=core_departamento.idDepartamento  '\
                                         'AND core_beneficiario.idBeneficiario=core_detallebeneficiario.beneficiario_id '\
-                                        'GROUP BY direccion, nombre_departamento, nombre_municipio')
+                                        'GROUP BY direccion, nombre_departamento, nombre_municipio, idBeneficiario')
+
+    grafico = Departamento.objects.raw('SELECT idDepartamento, nombre_departamento, count(departamento_id) cont FROM core_departamento  '\
+                                        'left outer join core_beneficiario on core_beneficiario.departamento_id = core_departamento.idDepartamento  '\
+                                        'left join core_detallebeneficiario on core_beneficiario.idBeneficiario = core_detallebeneficiario.beneficiario_id '\
+                                        'group by nombre_departamento, idDepartamento '\
+                                        'order by nombre_departamento ASC')
+
     form = FormFiltrar()
     if request.method == 'POST':
         form = FormFiltrar(request.POST)
@@ -37,7 +44,7 @@ def filtrar(request):
             # Guardar los datos
             #url = reverse('home')
             return HttpResponseRedirect(url)
-    return render(request, "core/filtrar.html",{'form':form, 'ayudas':ayudas, 'entidades':entidades, 'beneficiarios':beneficiarios})
+    return render(request, "core/filtrar.html",{'form':form, 'ayudas':ayudas, 'entidades':entidades, 'beneficiarios':beneficiarios, 'grafico':grafico})
 
 
 #def iniciar(request):
@@ -143,10 +150,3 @@ def logout(request):
     # Redireccionamos a la portada
     do_logout(request)
     return redirect('/')
-
-def welcome(request):
-    # Si estamos identificados devolvemos la portada
-    if request.user.is_authenticated:
-        return render(request, "core/welcome.html")
-    # En otro caso redireccionamos al login
-    return redirect('../iniciar')
