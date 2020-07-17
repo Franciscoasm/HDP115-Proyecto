@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 
-from .models import Departamento, Municipio, Beneficiario
+from .models import Departamento, Municipio, Beneficiario, DetalleBeneficiario
 
 
 def get_municipios(request):
@@ -22,34 +22,26 @@ def get_info(request):
     control = 0
     departamento_id = request.GET.get('departamento_id')
     municipio_id = request.GET.get('municipio_id')
-    beneficio_id = request.GET.get('beneficio_id')
-    benefactor_id = request.GET.get('benefactor_id')
 
-    consulta = 'SELECT idBeneficiario, nombre_benefactor, nombre_beneficio, nombre_departamento, nombre_municipio, COUNT(idBeneficiario) AS cantidad '\
-                'FROM core_beneficiario, core_benefactor, core_beneficio, core_municipio, core_departamento '\
-                'WHERE core_beneficiario.benefactor_id=core_benefactor.idBenefactor '\
-                'AND core_beneficiario.beneficio_id=core_beneficio.idBeneficio  '\
-                'AND core_beneficiario.municipio_id=core_municipio.idMunicipio '\
-                'AND core_beneficiario.departamento_id=core_departamento.idDepartamento'
+    consulta = 'SELECT idBeneficiario, direccion, nombre_departamento, nombre_municipio, COUNT(idBeneficiario) AS cantidad '\
+                'FROM core_beneficiario, core_municipio, core_departamento, core_detallebeneficiario  '\
+                'WHERE core_beneficiario.municipio_id=core_municipio.idMunicipio  '\
+                'AND core_beneficiario.departamento_id=core_departamento.idDepartamento  '\
+                'AND core_beneficiario.idBeneficiario=core_detallebeneficiario.beneficiario_id '
     if departamento_id:
         consulta += ' AND core_beneficiario.departamento_id = %s' % (departamento_id) 
     if municipio_id:
         consulta += ' AND core_beneficiario.municipio_id = %s' % (municipio_id) 
-    if beneficio_id:
-        consulta += ' AND core_beneficiario.beneficio_id = %s' % (beneficio_id) 
-    if benefactor_id:
-        consulta += ' AND core_beneficiario.benefactor_id = %s' % (benefactor_id) 
     
-    consulta += ' GROUP BY nombre_benefactor, nombre_beneficio, nombre_departamento, nombre_municipio'
+    consulta += ' GROUP BY direccion, nombre_departamento, nombre_municipio '
 
     table = '<table class="table table-hover">'\
                 '<thead>'\
                     '<tr class="table-primary">'\
+                        '<th scope="col">Direccion</th>'\
                         '<th scope="col">Departamento</th>'\
                         '<th scope="col">Municipio</th>'\
-                        '<th scope="col">Tipo de ayuda</th>'\
-                        '<th scope="col">Entidad</th>'\
-                        '<th scope="col">Cantidad</th>'\
+                        '<th scope="col">Ayuda Recibida</th>'\
                     '</tr>'\
                 '</thead>'\
                 '<tbody>'
@@ -61,12 +53,10 @@ def get_info(request):
                     '<td>%s</td>'\
                     '<td>%s</td>'\
                     '<td>%s</td>'\
-                    '<td>%s</td>'\
                 '</tr>' % (
+            beneficiario.direccion,
             beneficiario.nombre_departamento,
             beneficiario.nombre_municipio,
-            beneficiario.nombre_beneficio,
-            beneficiario.nombre_benefactor,
             beneficiario.cantidad,
         )
     if control == 0 :
@@ -79,3 +69,105 @@ def get_info(request):
     response2 = {}
     response2['beneficiarios'] = table
     return JsonResponse(response2)
+
+def get_last(request):
+    idBenefic = 5
+    consulta = 'SELECT idBeneficiario, MAX(idBeneficiario) id FROM core_beneficiario GROUP BY idBeneficiario'
+    results = Beneficiario.objects.raw(consulta)
+    for result in results:
+        idBenefic = result.idBeneficiario
+    response = {}
+    response['idLast'] = idBenefic
+    return JsonResponse(response)
+
+def get_detalle(request):
+    control = 0
+    id_beneficiario = request.GET.get('beneficiario_id')
+    consulta = 'SELECT idDetalle, nombre_beneficio, nombre_benefactor, cantidad FROM core_detallebeneficiario AS detalle '\
+                'inner join core_beneficiario AS beneficiario ON detalle.beneficiario_id = beneficiario.idBeneficiario '\
+                'inner join core_beneficio AS beneficio ON detalle.beneficio_id = beneficio.idBeneficio '\
+                'inner join core_benefactor AS benefactor ON detalle.benefactor_id = benefactor.idBenefactor '\
+                'WHERE detalle.beneficiario_id = '
+    consulta += id_beneficiario
+    table = '<table class="table table-hover">'\
+                '<thead>'\
+                    '<tr class="table-primary">'\
+                        '<th scope="col">Tipo de Ayuda</th>'\
+                        '<th scope="col">Entidad</th>'\
+                        '<th scope="col">Cantidad</th>'\
+                    '</tr>'\
+                '</thead>'\
+                '<tbody>'
+    detalles = DetalleBeneficiario.objects.raw(consulta)
+    for detalle in detalles:
+        control += 1
+        table+= '<tr class="table-light">'\
+                    '<td>%s</td>'\
+                    '<td>%s</td>'\
+                    '<td>%s</td>'\
+                '</tr>' % (
+            detalle.nombre_beneficio,
+            detalle.nombre_benefactor,
+            detalle.cantidad,
+        )
+    if control == 0 :
+        table = '<div class="alert alert-dismissible alert-warning">'\
+                    '<h4 class="alert-heading">¡Atención!</h4>'\
+                    '<p class="mb-0">No se han encontrado registros</p>'\
+                '</div>'
+    else :
+        table += '</tbody></table>'
+    response = {}
+    response['detalles'] = table
+    return JsonResponse(response)
+
+def get_info_extend(request):
+    idBenefic = 5
+    consulta = 'SELECT idBeneficiario, MAX(idBeneficiario) id FROM core_beneficiario GROUP BY idBeneficiario'
+    results = Beneficiario.objects.raw(consulta)
+    for result in results:
+        idBenefic = result.idBeneficiario
+    response = {}
+    response['idLast'] = idBenefic
+    return JsonResponse(response)
+
+def get_detalle(request):
+    control = 0
+    id_beneficiario = request.GET.get('beneficiario_id')
+    consulta = 'SELECT idDetalle, nombre_beneficio, nombre_benefactor, cantidad FROM core_detallebeneficiario AS detalle '\
+                'inner join core_beneficiario AS beneficiario ON detalle.beneficiario_id = beneficiario.idBeneficiario '\
+                'inner join core_beneficio AS beneficio ON detalle.beneficio_id = beneficio.idBeneficio '\
+                'inner join core_benefactor AS benefactor ON detalle.benefactor_id = benefactor.idBenefactor '\
+                'WHERE detalle.beneficiario_id = '
+    consulta += id_beneficiario
+    table = '<table class="table table-hover">'\
+                '<thead>'\
+                    '<tr class="table-primary">'\
+                        '<th scope="col">Tipo de Ayuda</th>'\
+                        '<th scope="col">Cantidad</th>'\
+                        '<th scope="col">Entidad</th>'\
+                    '</tr>'\
+                '</thead>'\
+                '<tbody>'
+    detalles = DetalleBeneficiario.objects.raw(consulta)
+    for detalle in detalles:
+        control += 1
+        table+= '<tr class="table-light">'\
+                    '<td>%s</td>'\
+                    '<td>%s</td>'\
+                    '<td>%s</td>'\
+                '</tr>' % (
+            detalle.nombre_beneficio,
+            detalle.cantidad,
+            detalle.nombre_benefactor,
+        )
+    if control == 0 :
+        table = '<div class="alert alert-dismissible alert-warning">'\
+                    '<h4 class="alert-heading">¡Atención!</h4>'\
+                    '<p class="mb-0">No se han encontrado registros</p>'\
+                '</div>'
+    else :
+        table += '</tbody></table>'
+    response = {}
+    response['detallesExtend'] = table
+    return JsonResponse(response)
