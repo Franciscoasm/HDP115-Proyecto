@@ -33,15 +33,16 @@ def get_info(request):
     if municipio_id:
         consulta += ' AND core_beneficiario.municipio_id = %s' % (municipio_id) 
     
-    consulta += ' GROUP BY direccion, nombre_departamento, nombre_municipio '
+    consulta += ' GROUP BY direccion, nombre_departamento, nombre_municipio, idBeneficiario '
 
     table = '<table class="table table-hover">'\
                 '<thead>'\
                     '<tr class="table-primary">'\
-                        '<th scope="col">Direccion</th>'\
+                    '<th scope="col">Direccion</th>'\
                         '<th scope="col">Departamento</th>'\
                         '<th scope="col">Municipio</th>'\
-                        '<th scope="col">Ayuda Recibida</th>'\
+                        '<th scope="col">Cantidad de Ayudas</th>'\
+                        '<th scope="col">Detalle</th>'\
                     '</tr>'\
                 '</thead>'\
                 '<tbody>'
@@ -53,11 +54,17 @@ def get_info(request):
                     '<td>%s</td>'\
                     '<td>%s</td>'\
                     '<td>%s</td>'\
+                    '<td>'\
+                        '<button type="button" onclick="getInfoExtend(%s)" class="btn btn-link" data-toggle="modal" data-target="#exampleModal">'\
+                            '<i class="large material-icons">more</i>'\
+                        '</button>'\
+                    '</td>'\
                 '</tr>' % (
             beneficiario.direccion,
             beneficiario.nombre_departamento,
             beneficiario.nombre_municipio,
             beneficiario.cantidad,
+            beneficiario.idBeneficiario,
         )
     if control == 0 :
         table = '<div class="alert alert-dismissible alert-warning">'\
