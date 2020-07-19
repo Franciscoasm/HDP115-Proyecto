@@ -97,11 +97,11 @@
             url: "{% url 'get_last' %}",
         });
         request.done(function(response) {
-            getInfo(response.idLast);
+            getInfor(response.idLast);
         }); 
     }
 
-    function getInfo(idLast) {
+    function getInfor(idLast) {
         $("#result").html("");
         var request = $.ajax({
             type: "GET",
