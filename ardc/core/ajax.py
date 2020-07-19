@@ -87,46 +87,6 @@ def get_last(request):
     response['idLast'] = idBenefic
     return JsonResponse(response)
 
-def get_detalle(request):
-    control = 0
-    id_beneficiario = request.GET.get('beneficiario_id')
-    consulta = 'SELECT idDetalle, nombre_beneficio, nombre_benefactor, cantidad FROM core_detallebeneficiario AS detalle '\
-                'inner join core_beneficiario AS beneficiario ON detalle.beneficiario_id = beneficiario.idBeneficiario '\
-                'inner join core_beneficio AS beneficio ON detalle.beneficio_id = beneficio.idBeneficio '\
-                'inner join core_benefactor AS benefactor ON detalle.benefactor_id = benefactor.idBenefactor '\
-                'WHERE detalle.beneficiario_id = '
-    consulta += id_beneficiario
-    table = '<table class="table table-hover">'\
-                '<thead>'\
-                    '<tr class="table-primary">'\
-                        '<th scope="col">Tipo de Ayuda</th>'\
-                        '<th scope="col">Entidad</th>'\
-                        '<th scope="col">Cantidad</th>'\
-                    '</tr>'\
-                '</thead>'\
-                '<tbody>'
-    detalles = DetalleBeneficiario.objects.raw(consulta)
-    for detalle in detalles:
-        control += 1
-        table+= '<tr class="table-light">'\
-                    '<td>%s</td>'\
-                    '<td>%s</td>'\
-                    '<td>%s</td>'\
-                '</tr>' % (
-            detalle.nombre_beneficio,
-            detalle.nombre_benefactor,
-            detalle.cantidad,
-        )
-    if control == 0 :
-        table = '<div class="alert alert-dismissible alert-warning">'\
-                    '<h4 class="alert-heading">¡Atención!</h4>'\
-                    '<p class="mb-0">No se han encontrado registros</p>'\
-                '</div>'
-    else :
-        table += '</tbody></table>'
-    response = {}
-    response['detalles'] = table
-    return JsonResponse(response)
 
 def get_info_extend(request):
     idBenefic = 5
