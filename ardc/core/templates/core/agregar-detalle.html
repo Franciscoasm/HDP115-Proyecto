@@ -102,7 +102,7 @@
     }
 
     function getInfor(idLast) {
-        $("#result").html("");
+        $("#result").html(""); //RESETEA
         var request = $.ajax({
             type: "GET",
             url: "{% url 'get_detalle' %}",

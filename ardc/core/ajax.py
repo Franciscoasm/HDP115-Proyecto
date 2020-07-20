@@ -3,6 +3,14 @@ from django.http import JsonResponse
 from .models import Departamento, Municipio, Beneficiario, DetalleBeneficiario
 
 
+
+"""
+Obtiene los municipios 
+Obtiene el id del departamento, luego hace un clean con .none() borra objetos de tipo municipio
+guarda la opcion seleccionada
+Segun el id del departamento los municipios se van a filtrar
+y se va a llenar el combobox de municipios segun el departamento que elegi 
+"""
 def get_municipios(request):
     departamento_id = request.GET.get('departamento_id')
     municipios = Municipio.objects.none()
@@ -17,6 +25,19 @@ def get_municipios(request):
     response = {}
     response['municipios'] = options
     return JsonResponse(response)
+
+"""
+Este funciona para filtrar segun departamento
+primero obtiene el id de partamento y municipio, luego hace una consulta donde obtiene el idBeneficiario la direccion
+nombre del departamento y municipio donde cuenta el id del beneficiario ya que un usuario puede ingresar mas de una ayuda
+y eso va a traerlo de las tablas siguientes, y eso solo puede hacerse si el idMunicipio es igual el del departamento
+el de beneficiario, luego agrega un string ya sea de departamento o municipio, agrupa los datos segun los campos 
+que le proporciono, luego crea una tabla con algunos campos y uno de detalle y otro de cantidad
+Devuelve los registros de la base de datos para crear una ventana flotante donde se puede ver la direccion, el nombre municipio,
+cantidad departamento id beneficiario, si no encuentra los registros al filtrar mostrara un error y la tabla no se mostrara 
+"""
+
+
 
 def get_info(request):
     control = 0
@@ -78,6 +99,7 @@ def get_info(request):
     return JsonResponse(response2)
 
 def get_last(request):
+    #Obtener el ultimo id
     idBenefic = 5
     consulta = 'SELECT idBeneficiario, MAX(idBeneficiario) id FROM core_beneficiario GROUP BY idBeneficiario'
     results = Beneficiario.objects.raw(consulta)
@@ -97,6 +119,12 @@ def get_info_extend(request):
     response = {}
     response['idLast'] = idBenefic
     return JsonResponse(response)
+
+"""
+ventana flotante, se necesita hacer una consulta para ver los datos segun direccion depa y municipio segun el id del beneficiario
+guardando los datos en consulta, agrega una tabla, se obtienen los datos de la base de datos 
+de la tabla detalle beneficiario y cada ves que se ingresen essos datos se creara la tabla, si no hay datos mostrara un error
+"""
 
 def get_detalle(request):
     control = 0

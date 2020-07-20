@@ -63,9 +63,9 @@
             $("#id_municipio").html("");
             var request = $.ajax({
               type: "GET",
-              url: "{% url 'get_municipios' %}",
-              data: {
-                "departamento_id": departamentoId,
+              url: "{% url 'get_municipios' %}",  // va a traer los datos de la funcion get_municipios 
+                           data: {
+                "departamento_id": departamentoId, //segun el departamento
               },
             });
             request.done(function (response) {
@@ -74,7 +74,7 @@
               $("#id_municipio").trigger("change");
             });
           } else {
-            $("#id_municipio").html("<option value='' selected='selected'>--------</option>");
+            $("#id_municipio").html("<option value='' selected='selected'>--------</option>"); //si no los ha encontrado queda ------
             $("#id_municipio").trigger("change");
           }
         }
