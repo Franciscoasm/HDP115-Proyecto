@@ -100,7 +100,7 @@ def get_info(request):
 
 def get_last(request):
     #Obtener el ultimo id
-    idBenefic = 5
+    idBenefic = 0
     consulta = 'SELECT idBeneficiario, MAX(idBeneficiario) id FROM core_beneficiario GROUP BY idBeneficiario'
     results = Beneficiario.objects.raw(consulta)
     for result in results:
@@ -109,16 +109,6 @@ def get_last(request):
     response['idLast'] = idBenefic
     return JsonResponse(response)
 
-
-def get_info_extend(request):
-    idBenefic = 5
-    consulta = 'SELECT idBeneficiario, MAX(idBeneficiario) id FROM core_beneficiario GROUP BY idBeneficiario'
-    results = Beneficiario.objects.raw(consulta)
-    for result in results:
-        idBenefic = result.idBeneficiario
-    response = {}
-    response['idLast'] = idBenefic
-    return JsonResponse(response)
 
 """
 ventana flotante, se necesita hacer una consulta para ver los datos segun direccion depa y municipio segun el id del beneficiario

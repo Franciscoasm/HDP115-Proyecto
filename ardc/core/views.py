@@ -55,31 +55,40 @@ def filtrar(request): #request:es la peticion
 
 def agregar(request):
     form=FormFiltrar()
-    if request.method=="POST":
-        #creacion de objetos
-        beneficiario=Beneficiario()       
-        
-        direccion=request.POST['direccion']
-        #Como para tener identificados los datos y que se van a guardar en la tabla
-        beneficiario.direccion=direccion
-        
-        #QuerySets que lee de la base de datos
-        municipio=Municipio.objects.get(idMunicipio=request.POST['municipio']) #Consigue un objeto que tenga cualquier id del municipio
-        departamento=Departamento.objects.get(idDepartamento=request.POST['departamento'])
-        beneficiario.departamento=departamento
-        beneficiario.municipio=municipio      
-        #Guarda en la base de datos
-        beneficiario.save()
+    idBenefic = 0
+    consulta = 'SELECT idBeneficiario, MAX(idBeneficiario) id FROM core_beneficiario WHERE estado = 1 GROUP BY idBeneficiario'
+    results = Beneficiario.objects.raw(consulta)
+    for result in results:
+        idBenefic = result.idBeneficiario
 
+    if  results:
         return redirect('../detalle/')
+    else:
+        if request.method=="POST":
+            #creacion de objetos
+            beneficiario=Beneficiario()       
+            
+            direccion=request.POST['direccion']
+            #Como para tener identificados los datos y que se van a guardar en la tabla
+            beneficiario.direccion=direccion
+            
+            #QuerySets que lee de la base de datos
+            municipio=Municipio.objects.get(idMunicipio=request.POST['municipio']) #Consigue un objeto que tenga cualquier id del municipio
+            departamento=Departamento.objects.get(idDepartamento=request.POST['departamento'])
+            beneficiario.departamento=departamento
+            beneficiario.municipio=municipio      
+            #Guarda en la base de datos
+            beneficiario.save()
 
-        # Añadimos los datos recibidos al formulario
-        form=FormFiltrar(request.POST)
-        if form.is_valid():
-            return HttpResponse(url)  #devuelve un codigo (html)
-   
-   #me devuelve la peticion y la template  donde muestro el contexto
-    return render(request, "core/agregar.html",{'form':form})
+            return redirect('../detalle/')
+
+            # Añadimos los datos recibidos al formulario
+            form=FormFiltrar(request.POST)
+            if form.is_valid():
+                return HttpResponse(url)  #devuelve un codigo (html)
+    
+    #me devuelve la peticion y la template  donde muestro el contexto
+        return render(request, "core/agregar.html",{'form':form})
 
 def detalleBeneficiario(request):
     #Obteniendo los objetos de ayuda y entidades 
@@ -114,13 +123,23 @@ def detalleBeneficiario(request):
 
 def actualizar(request):
     idBenefic = 0
-    consulta = 'SELECT idBeneficiario, MAX(idBeneficiario) id FROM core_beneficiario GROUP BY idBeneficiario'
+    consulta = 'SELECT idBeneficiario, MAX(idBeneficiario) id FROM core_beneficiario WHERE estado = 1 GROUP BY idBeneficiario'
     results = Beneficiario.objects.raw(consulta)
     for result in results:
         idBenefic = result.idBeneficiario
     
-    with connection.cursor() as cursor:
-        cursor.execute("UPDATE core_beneficiario SET estado = 0 WHERE idBeneficiario = %s", [idBenefic])
+    contador = 0
+    consulta = 'SELECT idDetalle FROM core_detallebeneficiario WHERE beneficiario_id = %s' % (idBenefic)
+    results2 = DetalleBeneficiario.objects.raw(consulta)
+    for result in results2:
+        contador += 1
+    
+    if contador == 0:
+        with connection.cursor() as cursor:
+            cursor.execute("DELETE FROM core_beneficiario WHERE idBeneficiario = %s", [idBenefic])
+    else:
+        with connection.cursor() as cursor:
+            cursor.execute("UPDATE core_beneficiario SET estado = 0 WHERE idBeneficiario = %s", [idBenefic])
 
     return redirect('/')
 

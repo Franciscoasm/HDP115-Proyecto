@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from core import views
 from django.conf.urls import url
-from core.ajax import get_municipios, get_info, get_last, get_detalle, get_info_extend
+from core.ajax import get_municipios, get_info, get_last, get_detalle
 
 urlpatterns = [
     #Paths del core
@@ -32,7 +32,6 @@ urlpatterns = [
     url(r'ajax/get_info', get_info, name='get_info'),
     url(r'ajax/get_last', get_last, name='get_last'),
     url(r'ajax/get_detalle', get_detalle, name='get_detalle'),
-    url(r'ajax/get_info_extend', get_info_extend, name='get_info_extend'),
     #path('accounts/', include('django.contrib.auth.urls')),
     path('iniciar/', views.login, name = "Iniciar Sesion"),
     path('logout/', views.logout),
